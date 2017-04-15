@@ -1,0 +1,47 @@
+<html>
+<head>
+<style>
+table, th, td {
+	border: 1px solid black;
+}
+</style>
+<title>Sensor Dashboard</title>
+</head>
+<body>
+<h1>Sensors</h1>
+{% if SensorLst %}
+<table>
+<tr>
+<th>Model</th>
+<th>House Code</th>
+<th>Date</th>
+<th>Last Time</th>
+<th>Last TempF</th>
+<th>Humidity %</th>
+<th>Battery Status</th>
+<th>Min Time</th>
+<th>Min TempF</th>
+<th>Max Time</th>
+<th>Max TempF</th>
+</tr>
+{% for sensor in SensorLst %}
+<tr>
+<td>{{ sensor.ModelNm }}</td>
+<td>{{ sensor.HouseCd }}</td>
+<td>{{ sensor.Dte }}</td>
+<td>{{ sensor.LstTime }}</td>
+<td>{{ sensor.LstTempF }}</td>
+<td>{{ sensor.HumidityPct }}</td>
+<td>{{ sensor.BatteryCd }}</td>
+<td>{{ sensor.MinTempTime }}</td>
+<td>{{ sensor.MinTemp }}</td>
+<td>{{ sensor.MaxTempTime }}</td>
+<td>{{ sensor.MaxTemp }}</td>
+</tr>
+{% endfor %}
+</table>
+{% else %}
+<p>No sensors to show</p>
+{% endif %}
+</body>
+</html>

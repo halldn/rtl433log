@@ -1,5 +1,7 @@
 #app.py
-from flask import Flask
+from flask import Flask, request, render_template, make_response
+import sqlite3
+
 app = Flask(__name__)
 app.config.from_object('config')
 # Now we can access the configuration variables via app.config["VAR_NAME"]

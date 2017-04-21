@@ -1,0 +1,42 @@
+
+html,body{
+	font-family:Verdana,sans-serif;
+	font-size:15px;
+	line-height:1.5
+	}
+
+h1,h2,h3,h4,h5,h6{
+	font-family:Verdana,sans-serif;
+	font-weight:400;
+	margin:10px 0
+	}
+
+/* ------------------
+ styling for the tables 
+   ------------------   */
+
+#hor-minimalist-b {
+	font-family:Verdana,sans-serif;
+	font-size: 12px;
+	margin: 50px;
+	width: 80%;
+	border-collapse: collapse;
+	text-align: left;
+}
+#hor-minimalist-b th {
+	font-size: 14px;
+	font-weight: normal;
+	color: #039;
+	padding: 10px 8px;
+	border-bottom: 2px solid #6678b1;
+}
+#hor-minimalist-b td {
+	border-bottom: 1px solid #ccc;
+	padding: 6px 8px;
+}
+#hor-minimalist-b tbody tr:hover td {
+	color: #009;
+}
+.odd {
+	background: #e8edff; 
+}

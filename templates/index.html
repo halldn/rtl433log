@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Sensor Dashboard</title>
+<style type="text/css">
+<!--
+@import url("static/style.css");
+-->
+</style>
+</head>
+
+<body>
+<h2>Sensors</h2>
+<hr>
+{% if SensorLst %}
+<table id="hor-minimalist-b" summary="Sensor list">
+	<thead>
+		<tr>
+			<th>Temp</th>
+			<th>Humidity</th>
+			<th>Battery</th>
+			<th>Time</th>
+			<th>Min</th>
+			<th>Time</th>
+			<th>Max</th>
+			<th>Time</th>
+			</tr>
+	<thead>
+	<tbody>
+		{% for sensor in SensorLst %}
+		<tr class="odd">
+			<td colspan="8">{{ sensor.ModelNm }}:{{ sensor.HouseCd }}</td>
+		</tr>
+		<tr>
+			<td>{{ sensor.LstTempF }}&deg;F</td>
+			<td>{{ sensor.HumidityPct }}%</td>
+			<td>{{ sensor.BatteryCd }}</td>
+			<td>{{ sensor.LstTime }}</td>
+			<td>{{ sensor.MinTemp }}&deg;F</td>
+			<td>{{ sensor.MinTempTime }}</td>
+			<td>{{ sensor.MaxTemp }}&deg;F</td>
+			<td>{{ sensor.MaxTempTime }}</td>
+		</tr>
+	</tbody>
+{% endfor %}
+</table>
+
+{% else %}
+<p>No sensors/readings to show</p>
+{% endif %}
+</body>
+</html>

@@ -46,10 +46,57 @@ def index():
 	sensor_list = []
 	for row in results:
 		sensor_list.append({'ModelNm': row[0], 'HouseCd':row[1], 'Dte':row[2], 'LstTime':row[3], 'LstTempF':row[4], 'HumidityPct':row[5], 'BatteryCd':row[6], 'MinTempTime':row[7], 'MinTemp':row[8], 'MaxTempTime':row[9], 'MaxTemp':row[10]})
-	
-	return render_template("index.html",
-		SensorLst = sensor_list
-		)
+
+	return render_template("index.html", SensorLst = sensor_list)
+
+@app.route("/hourly")
+def hourly():
+
+	# Connect to db
+	conn = sqlite3.connect(dbfile)
+	c = conn.cursor()
+
+	# Get list of sensors and today's reading summary
+	c.execute("SELECT "\
+		+"a.Dte "\
+		+",a.Hr "\
+		+",strftime('%Y-%m-%d %H:%M:%S', datetime(b.Timestamp, 'unixepoch', 'localtime')) AS DteTime "\
+		+",a.ModelNm "\
+		+",a.HouseCd "\
+		+",a.ChannelCd "\
+		+",a.MinId AS Id "\
+		+",b.BatteryCd "\
+		+",32+9.0/5*b.TempC AS TempF "\
+		+",b.HumidityPct "\
+		+"FROM ( "\
+		+"SELECT "\
+		+"strftime('%Y-%m-%d', datetime(a.Timestamp, 'unixepoch', 'localtime')) AS Dte "\
+		+",strftime('%H:00:00', datetime(a.Timestamp, 'unixepoch', 'localtime')) AS Hr "\
+		+",ModelNm "\
+		+",HouseCd "\
+		+",ChannelCd "\
+		+",MIN(Id) AS MinId "\
+		+"FROM log_sensor a "\
+		#+"WHERE strftime('%Y-%m-%d', datetime(a.Timestamp, 'unixepoch', 'localtime')) >= datetime('2017-04-08', '-24 hour') "\
+		+"GROUP BY "\
+		+"strftime('%Y-%m-%d', datetime(a.Timestamp, 'unixepoch', 'localtime')) "\
+		+",strftime('%H', datetime(a.Timestamp, 'unixepoch', 'localtime')) "\
+		+",ModelNm "\
+		+",HouseCd "\
+		+",ChannelCd "\
+		+") a "\
+		+"JOIN log_sensor b "\
+		+"ON a.MinId = b.Id "\
+		+"ORDER BY a.ModelNm, a.HouseCd, a.Dte, a.Hr")
+
+	# Convert results to dict
+	results = c.fetchall()
+	hourly_list = []
+	for row in results:
+		hourly_list.append({'Dte': row[0], 'Hr':row[1], 'DteTime':row[2], 'ModelNm':row[3], 'HouseCd':row[4], 'ChannelCd':row[5], 'Id':row[6], 'BatteryCd':row[7], 'TempF':row[8], 'HumidityPct':row[9]})
+
+	return render_template("hourly.html", HourlyLst = hourly_list)
+
 @app.route("/hello")
 def hello():
 	return "Hello World!"

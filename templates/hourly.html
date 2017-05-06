@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+{% block content %}
+<h2>Hourly List<h2>
+<hr>
+{% if HourlyLst %}
+<table class="hor-minimalist" summary="Hourly list">
+	<thead>
+		<tr>
+			<th>Date</th>
+			<th>Hour</th>
+			<th>Model</th>
+			<th>Battery</th>
+			<th>Temp</th>
+			<th>Humidity</th>
+		</tr>
+	<thead>
+	<tbody>
+		{% for hour in HourlyLst %}
+		<tr>
+			<td>{{ hour.Dte }}</td>
+			<td>{{ hour.Hr }}</td>
+			<td>{{ hour.ModelNm }}:{{ hour.HouseCd }}</td>
+			<td>{{ hour.BatteryCd }}</td>
+			<td>{{ hour.TempF }}&deg;F</td>
+			<td>{{ hour.HumidityPct }}%</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+
+{% else %}
+<p>No sensors/readings to show</p>
+{% endif %}
+
+{% endblock %}

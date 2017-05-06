@@ -1,42 +1,46 @@
 
-html,body{
-	font-family:Verdana,sans-serif;
-	font-size:15px;
+/*
+Style sheet for rtl433log project
+
+Google fonts: Open Sans
+<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+*/
+
+/* Global styles
+---------------------------------------*/
+
+body {
+	font-family: 'Open Sans', sans-serif;
 	line-height:1.5
-	}
+}
 
-h1,h2,h3,h4,h5,h6{
-	font-family:Verdana,sans-serif;
-	font-weight:400;
-	margin:10px 0
-	}
+/* Header and Footer
+---------------------------------------*/
 
-/* ------------------
- styling for the tables 
-   ------------------   */
 
-#hor-minimalist-b {
-	font-family:Verdana,sans-serif;
-	font-size: 12px;
-	margin: 50px;
-	width: 80%;
+/* Tables
+---------------------------------------*/
+
+.hor-minimalist {
+	font-size: 14px;
 	border-collapse: collapse;
 	text-align: left;
 }
-#hor-minimalist-b th {
-	font-size: 14px;
-	font-weight: normal;
+.hor-minimalist th {
 	color: #039;
-	padding: 10px 8px;
-	border-bottom: 2px solid #6678b1;
+	padding: 10px;
+	border-bottom: 2px solid black;
 }
-#hor-minimalist-b td {
+.hor-minimalist td {
 	border-bottom: 1px solid #ccc;
-	padding: 6px 8px;
+	padding: 6px;
 }
-#hor-minimalist-b tbody tr:hover td {
-	color: #009;
+.hor-minimalist tbody tr:hover td {
+	color: #039;
+	background-color: #ccc;
+	font-weight: 600;
 }
 .odd {
-	background: #e8edff; 
+	background: #e8edff;
+	font-weight: 600;
 }

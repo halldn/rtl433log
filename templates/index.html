@@ -1,19 +1,9 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<title>Sensor Dashboard</title>
-<style type="text/css">
-<!--
-@import url("static/style.css");
--->
-</style>
-</head>
-
-<body>
-<h2>Sensors</h2>
+{% extends "layout.html" %}
+{% block content %}
+<h2>Sensor Dashboard<h2>
 <hr>
 {% if SensorLst %}
-<table id="hor-minimalist-b" summary="Sensor list">
+<table class="hor-minimalist" summary="Sensor list">
 	<thead>
 		<tr>
 			<th>Temp</th>
@@ -24,7 +14,7 @@
 			<th>Time</th>
 			<th>Max</th>
 			<th>Time</th>
-			</tr>
+		</tr>
 	<thead>
 	<tbody>
 		{% for sensor in SensorLst %}
@@ -41,12 +31,12 @@
 			<td>{{ sensor.MaxTemp }}&deg;F</td>
 			<td>{{ sensor.MaxTempTime }}</td>
 		</tr>
+		{% endfor %}
 	</tbody>
-{% endfor %}
 </table>
 
 {% else %}
 <p>No sensors/readings to show</p>
 {% endif %}
-</body>
-</html>
+
+{% endblock %}

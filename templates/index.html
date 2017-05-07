@@ -1,7 +1,5 @@
 {% extends "layout.html" %}
 {% block content %}
-<h2>Sensor Dashboard<h2>
-<hr>
 {% if SensorLst %}
 <table class="hor-minimalist" summary="Sensor list">
 	<thead>
@@ -19,7 +17,7 @@
 	<tbody>
 		{% for sensor in SensorLst %}
 		<tr class="odd">
-			<td colspan="8">{{ sensor.ModelNm }}:{{ sensor.HouseCd }} | <a href="/hourly?sname={{ sensor.ModelNm }}{{ sensor.HouseCd }}">24 Hr</a></td>
+			<td colspan="8">{{ sensor.ModelNm }}:{{ sensor.HouseCd }} | <a href="/hourly?sname={{ sensor.ModelNm }}{{ sensor.HouseCd }}">Hourly</a></td>
 		</tr>
 		<tr>
 			<td>{{ sensor.LstTempF }}&deg;F</td>

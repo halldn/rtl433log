@@ -21,6 +21,20 @@ p {
 /* Header and Footer
 ---------------------------------------*/
 
+.title {
+	margin-bottom: 10px;
+}
+.navbar {
+	padding: 2px; 
+	display: block;
+	background-color: black;
+}
+.navbar a {
+	padding: 2px 20px 2px 0px;
+	text-decoration: none;
+	color: white;
+	font-weight: 600;
+}
 
 /* Tables
 ---------------------------------------*/

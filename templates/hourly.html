@@ -1,8 +1,6 @@
 {% extends "layout.html" %}
 {% block content %}
-<h2>Hourly List<h2>
-<p>Displaying readings from previous 24 hours for sensor {{ SensorNm }}</p>
-<hr>
+<p>Today's readings from sensor {{ SensorNm }}</p>
 {% if HourlyLst %}
 
 <table class="hor-minimalist" summary="Hourly list">

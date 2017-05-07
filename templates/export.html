@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+{% block content %}
+{% if ExportLst %}
+<table class="hor-minimalist" summary="Export list">
+	<thead>
+		<tr>
+			<th>Date</th>
+			<th>Records</th>
+			<th>Min Time</th>
+			<th>Max Time</th>
+		</tr>
+	<thead>
+	<tbody>
+		{% for export in ExportLst %}
+		<tr>
+			<td><a href="/export?d={{ export.DteNbr }}">{{ export.Dte }}</a></td>
+			<td>{{ export.RecordCt }}</td>
+			<td>{{ export.MinTime }}</td>
+			<td>{{ export.MaxTime }}</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+
+{% else %}
+<p>No dates to show</p>
+{% endif %}
+
+{% endblock %}

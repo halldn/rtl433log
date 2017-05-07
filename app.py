@@ -8,6 +8,7 @@ app.config.from_object('config')
 
 dbfile = app.config["DBFILE"]
 
+
 @app.route("/")
 def index():
 
@@ -49,53 +50,59 @@ def index():
 
 	return render_template("index.html", SensorLst = sensor_list)
 
-@app.route("/hourly")
+@app.route("/hourly", methods=["GET"])
 def hourly():
 
 	# Connect to db
 	conn = sqlite3.connect(dbfile)
 	c = conn.cursor()
 
-	# Get list of sensors and today's reading summary
-	c.execute("SELECT "\
-		+"a.Dte "\
-		+",a.Hr "\
-		+",strftime('%Y-%m-%d %H:%M:%S', datetime(b.Timestamp, 'unixepoch', 'localtime')) AS DteTime "\
-		+",a.ModelNm "\
-		+",a.HouseCd "\
-		+",a.ChannelCd "\
-		+",a.MinId AS Id "\
-		+",b.BatteryCd "\
-		+",32+9.0/5*b.TempC AS TempF "\
-		+",b.HumidityPct "\
-		+"FROM ( "\
-		+"SELECT "\
-		+"strftime('%Y-%m-%d', datetime(a.Timestamp, 'unixepoch', 'localtime')) AS Dte "\
-		+",strftime('%H:00:00', datetime(a.Timestamp, 'unixepoch', 'localtime')) AS Hr "\
-		+",ModelNm "\
-		+",HouseCd "\
-		+",ChannelCd "\
-		+",MIN(Id) AS MinId "\
-		+"FROM log_sensor a "\
-		#+"WHERE strftime('%Y-%m-%d', datetime(a.Timestamp, 'unixepoch', 'localtime')) >= datetime('2017-04-08', '-24 hour') "\
-		+"GROUP BY "\
-		+"strftime('%Y-%m-%d', datetime(a.Timestamp, 'unixepoch', 'localtime')) "\
-		+",strftime('%H', datetime(a.Timestamp, 'unixepoch', 'localtime')) "\
-		+",ModelNm "\
-		+",HouseCd "\
-		+",ChannelCd "\
-		+") a "\
-		+"JOIN log_sensor b "\
-		+"ON a.MinId = b.Id "\
-		+"ORDER BY a.ModelNm, a.HouseCd, a.Dte, a.Hr")
+	sname = request.args.get('sname')
 
-	# Convert results to dict
-	results = c.fetchall()
-	hourly_list = []
-	for row in results:
-		hourly_list.append({'Dte': row[0], 'Hr':row[1], 'DteTime':row[2], 'ModelNm':row[3], 'HouseCd':row[4], 'ChannelCd':row[5], 'Id':row[6], 'BatteryCd':row[7], 'TempF':row[8], 'HumidityPct':row[9]})
+	if sname <> None:
+		c.execute("SELECT "\
+			+"a.Dte "\
+			+",a.Hr "\
+			+",strftime('%Y-%m-%d %H:%M:%S', datetime(b.Timestamp, 'unixepoch', 'localtime')) AS DteTime "\
+			+",a.ModelNm "\
+			+",a.HouseCd "\
+			+",a.ChannelCd "\
+			+",a.MinId AS Id "\
+			+",b.BatteryCd "\
+			+",32+9.0/5*b.TempC AS TempF "\
+			+",b.HumidityPct "\
+			+"FROM ( "\
+			+"SELECT "\
+			+"strftime('%Y-%m-%d', datetime(a.Timestamp, 'unixepoch', 'localtime')) AS Dte "\
+			+",strftime('%H:00:00', datetime(a.Timestamp, 'unixepoch', 'localtime')) AS Hr "\
+			+",ModelNm "\
+			+",HouseCd "\
+			+",ChannelCd "\
+			+",MIN(Id) AS MinId "\
+			+"FROM log_sensor a "\
+			+"WHERE 1 = 1 " \
+			#+"AND strftime('%Y-%m-%d', datetime(a.Timestamp, 'unixepoch', 'localtime')) >= datetime('2017-04-08', '-24 hour') "\
+			+"AND a.ModelNm || a.HouseCd = '" + sname + "' "\
+			+"GROUP BY "\
+			+"strftime('%Y-%m-%d', datetime(a.Timestamp, 'unixepoch', 'localtime')) "\
+			+",strftime('%H', datetime(a.Timestamp, 'unixepoch', 'localtime')) "\
+			+",ModelNm "\
+			+",HouseCd "\
+			+",ChannelCd "\
+			+") a "\
+			+"JOIN log_sensor b "\
+			+"ON a.MinId = b.Id "\
+			+"ORDER BY a.ModelNm, a.HouseCd, a.Dte, a.Hr")
 
-	return render_template("hourly.html", HourlyLst = hourly_list)
+		# Convert results to dict
+		results = c.fetchall()
+		hourly_list = []
+		for row in results:
+			hourly_list.append({'Dte': row[0], 'Hr':row[1], 'DteTime':row[2], 'ModelNm':row[3], 'HouseCd':row[4], 'ChannelCd':row[5], 'Id':row[6], 'BatteryCd':row[7], 'TempF':row[8], 'HumidityPct':row[9]})
+
+		return render_template("hourly.html", HourlyLst = hourly_list, SensorNm = sname)
+	else:
+		return "Invalid querystring"
 
 @app.route("/hello")
 def hello():
